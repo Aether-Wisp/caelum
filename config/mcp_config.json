@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "caelum": {
+      "command": "python3",
+      "args": [
+        "/path/to/your/caelum_mcp.py",
+        "--server",
+        "http://localhost:8888"
+      ], // 修改为您的实际路径
+      "description": "Caelum v8.0 - Advanced Cybersecurity Automation Platform. Turn off alwaysAllow if you dont want autonomous execution!",
+      "timeout": 300,
+      "alwaysAllow": []
+    }
+  }
+}

@@ -1,0 +1,60 @@
+services:
+  # Caelum 渗透测试平台
+  caelum:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile
+    container_name: caelum-server
+    network_mode: "host" # 【重要】改为 host 网络模式，让端口直接连通，内网穿透更方便
+    privileged: true # 【重要】高权限，允许 Nmap 等发特殊的底层数据包
+    environment:
+      # AI 模型 API 密钥
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-}
+      # Python 环境
+      - PYTHONUNBUFFERED=1
+    volumes:
+      # 持久化报告和缓存
+      - caelum-data:/app/data
+      - caelum-reports:/app/reports
+      - caelum-cache:/app/.cache
+    networks:
+      - caelum-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+  # 可选：Nginx 反向代理（用于生产环境，Windows 可能需要额外配置）
+  # 如需启用，请取消注释并确保 nginx.conf 文件存在
+  #
+  # nginx:
+  #   image: nginx:latest
+  #   container_name: caelum-nginx
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+  #     - ./ssl:/etc/nginx/ssl:ro
+  #   depends_on:
+  #     - caelum
+  #   networks:
+  #     - caelum-network
+  #   restart: unless-stopped
+
+networks:
+  caelum-network:
+    driver: bridge
+
+volumes:
+  caelum-data:
+    driver: local
+  caelum-reports:
+    driver: local
+  caelum-cache:
+    driver: local

@@ -1,0 +1,6 @@
+caelum_env/
+__pycache__/
+geoserver_CVE-2024-36401/
+*.pyc
+.git/
+.vscode/
