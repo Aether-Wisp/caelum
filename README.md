@@ -1,285 +1,194 @@
-# Caelum v8.0 - AI驱动的网络安全自动化平台
+# Caelum - 智能化网络安全自动化测试平台
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![Docker](https://img.shields.io/badge/Docker-Supported-blue.svg)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![MCP](https://img.shields.io/badge/MCP-1.0-orange.svg)](https://modelcontextprotocol.io/)
 
-> 🚀 **Caelum v8.0** - 基于大模型的智能化网络安全自动化平台
-> 🎯 **核心特性**: AI决策支持 + 全流程自动化 + 双平台兼容 + 74个安全工具集成 + 简洁用户界面
+> 🚀 **Caelum** - AI 驱动渗透测试与安全评估系统
+> 🎯 **核心特性**: 涵盖 AI 决策、自动化打靶全流程、原生支持 Bugku PAR 多节点内网穿透与跨平台容器化部署。
 
-## 项目概述
+## 📖 项目概述
 
-Caelum 是专为中国大学生服务外包创新创业大赛设计的智能化网络安全自动化测试系统。该系统利用大语言模型的理解与推理能力，实现安全测试流程的智能化和自动化，降低人工经验依赖，提升测试效率和覆盖范围。
+Caelum 是一个基于大语言模型（如 GPT-4、Claude-3 等）的智能化网络安全自动化测试系统。本系统结合真实的渗透测试框架与70+现网安全工具，旨在针对如 Vulhub、Vulnhub 虚拟机以及 Bugku PAR 靶场等多节点复杂网络环境，提供从资产测绘、漏洞发现、自动化利用到内网横向移动的端到端自动化解决方案。
 
-### 核心目标
+### ✨ 核心特性
 
-- ✅ **智能化测试**: 利用GPT/Claude/DeepSeek等大模型进行目标分析和决策辅助
-- ✅ **流程自动化**: 支持完整的渗透测试流程（侦察→扫描→利用→后渗透）
-- ✅ **双平台支持**: 自动识别Windows/Linux目标系统并选择相应策略
-- ✅ **工具集成**: 集成150+专业安全工具，覆盖全测试流程
-- ✅ **多阶段复杂场景**: 支持多节点依赖、内网横向移动分析，深度契合Bugku PAR等高难度渗透测试项目要求
-- ✅ **教学研究**: 提供可演示、可扩展的系统原型
-
-## 技术架构
-
-### 系统架构图
-
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   前端界面      │    │   AI分析引擎    │    │   工具框架      │
-│   (HTML/CSS/JS) │◄──►│   (GPT/Claude)  │◄──►│   (150+工具)    │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                        │                        │
-         └────────────────────────┼────────────────────────┘
-                                  │
-                    ┌─────────────────┐
-                    │ 自动化测试引擎 │
-                    │   (流程控制)   │
-                    └─────────────────┘
-```
-
-### 模块设计
-
-1. **AI分析模块** (`caelum_ai_analyzer.py`)
-   - 支持GPT-4、Claude-3、DeepSeek等主流模型
-   - 目标系统分析与风险评估
-   - 漏洞分析与利用建议
-   - 自动报告生成
-
-2. **自动化测试引擎** (`AutomatedTestEngine`)
-   - 智能测试流程控制
-   - 多阶段攻击链支持
-   - 结果验证与状态管理
-
-3. **工具框架** (`caelum_tools_framework.py`)
-   - 统一工具接口
-   - 74个安全工具集成
-   - 缓存与性能优化
-
-4. **前端界面** (`static/`)
-   - 现代化Web界面
-   - 实时状态展示
-   - 交互式操作支持
-
-## 快速开始
-
-### ⚡ 3 行代码启动系统
-
-```bash
-# 1. 一键启动完整系统（包含所有 74 个工具）
-docker-compose up -d
-
-# 2. 在浏览器打开
-# http://localhost:8888
-
-# 完成！✨
-```
-
-### 📚 详细部署指南
-
-我们为不同的环境提供了多种部署方案：
-
-| 方案                      | 命令                        | 难度   | 工具完整度 |
-| ------------------------- | --------------------------- | ------ | ---------- |
-| **Docker** (推荐)         | `docker-compose up -d`      | ⭐     | 100%       |
-| **Windows/Linux启动脚本** | `start.bat` 或 `./start.sh` | ⭐⭐   | 90%        |
-| **自动化安装**            | `./install_tools.sh`        | ⭐⭐   | 95%        |
-| **手动配置**              | 见下文                      | ⭐⭐⭐ | 80%        |
-
-👉 **[查看完整部署指南 →](DEPLOYMENT.md)** 了解所有部署选项、故障排除和常见问题
+- **🤖 智能化自动渗透**：AI 大模型作为“系统大脑”，分析 Nmap、Masscan 等扫描结果，自主选择 Payload 并调用外部工具。
+- **🌐 高阶靶场动态代理 (核心突破)**：针对 Bugku PAR 等多节点内网靶机环境，原生集成 `FRP`、`Chisel` 与 `Proxychains4`。系统可根据 AI 决策自动分配本地端口、生成隧道配置文件，并在底层完全隐蔽地将攻击流注入目标内网。
+- **🐳 跨平台与容器化**：依托 Docker 和 Docker Compose 进行系统部署，**支持主机在 Windows/Mac 环境下运行，而底层的 70+ Kali Linux 渗透工具在容器的 Linux 宿主环境中全量可用**。
+- **🧩 模块化工程架构**：遵循 PEP 8 规范的专业 Python 项目结构，业务逻辑与配置文件的彻底解耦，保障平台极高的可维护性与二次开发潜力。
 
 ---
 
-### 方案 1：Docker 部署（推荐）
+## 📂 项目结构
 
-#### 1. 安装Python依赖
+经过企业级工程化重构，项目目录如下：
+
+```text
+caelum/
+├── src/
+│   └── caelum/                 # Caelum 核心后端源码 (Python)
+│       ├── server.py           # Web 交互与 API 核心服务入口
+│       ├── tools_framework.py  # 70+ 安全工具与 Proxychains4 的封装调度框架
+│       ├── payload_generator.py# 漏洞 Payload 动态生成器
+│       ├── session_manager.py  # 渗透会话、动态端口分配与内网隧道代理管理
+│       ├── mcp.py              # MCP 模型上下文协议核心通信封装
+│       └── ai_analyzer.py      # 大语言模型决策引擎接口
+├── deploy/
+│   ├── docker-compose.yml      # Docker 容器编排文件 (Host 网络模式)
+│   └── Dockerfile              # 基于 Kali Linux 的基础执行环境镜像
+├── config/
+│   └── mcp_config.json         # 系统与 AI 交互的 MCP 配置信息
+├── docs/
+│   └── TARGETS_TESTING_GUIDE.md# 靶机环境测试与部署指南 (必读)
+├── requirements.txt            # Python 核心依赖清单
+└── README.md                   # 项目概览说明文档
+```
+
+---
+
+## 🚀 安装与部署
+
+**系统要求**：系统环境主机需安装 **Docker** 与 **Docker Compose**。本系统通过高权限容器挂载直接调用底层网络，确保 Windows/Mac 操作系统下亦能无损使用 Linux 独占工具。
+
+### 1. 克隆代码仓库
 
 ```bash
-# 创建虚拟环境
+git clone https://github.com/your-repo/caelum.git
+cd caelum
+```
+
+### 2. 容器化一键部署 (推荐/必选)
+
+由于系统依赖 Nmap（需 Raw Socket 权限）、Masscan、Proxychains4 以及众多 Kali 软件库，强烈建议使用 Docker 进行部署。
+
+```bash
+# 进入部署目录
+cd deploy
+
+# 一键拉取镜像、编译并启动系统后台
+docker-compose up -d --build
+```
+
+系统启动后，核心 API 服务器会自动运行在 `Host` 网络模式下，确保内部隧道与外部网络互通。
+
+### 3. 开发/调试模式部署 (仅限 Linux/Kali 主机)
+
+如果您本身就在 Kali Linux 系统下，可以选择原生 Python 启动：
+
+```bash
+# 创建并激活虚拟环境
 python3 -m venv caelum_env
-source caelum_env/bin/activate  # Linux/Mac
-# 或 caelum_env\Scripts\activate  # Windows
+source caelum_env/bin/activate
 
-# 安装Python依赖
-pip install -r requirements.txt
-```
-
-#### 2. 配置AI模型API密钥
-
-创建 `.env` 文件：
-
-```bash
-# OpenAI (推荐)
-export OPENAI_API_KEY="your-openai-api-key"
-
-# Anthropic Claude (可选)
-export ANTHROPIC_API_KEY="your-anthropic-api-key"
-
-# DeepSeek (可选)
-export DEEPSEEK_API_KEY="your-deepseek-api-key"
-```
-
-#### 3. 启动系统
-
-```bash
-# 启动Caelum服务器
-python caelum_server.py
-
-# 访问前端界面
-# http://localhost:8888
-```
-
-#### 4. 安装外部安全工具（重要！）
-
-⚠️ **注意**: Caelum 框架本身通过 pip 安装，但系统集成的 74 个安全工具需要**单独安装**。
-
-**快速安装方案选择：**
-
-##### 方案 A: 使用 Kali Linux（推荐，工具最全）
-
-最简单的方式是使用已预装大多数工具的 Kali Linux：
-
-```bash
-# 将系统升级到最新版本
-sudo apt update && sudo apt upgrade -y
-
-# 大多数工具已预装，如需补充：
-sudo apt install -y nmap nuclei sqlmap wpscan hydra hashcat
-```
-
-**Kali Linux 包含的工具（自动包含）**:
-
-- 网络扫描: nmap, masscan, rustscan
-- Web应用: nuclei, sqlmap, nikto, wfuzz, gobuster
-- 漏洞利用: metasploit-framework
-- 密码破解: hydra, hashcat, john
-- 二进制分析: ghidra, gdb, radare2
-- 其他: binwalk, volatility3, bloodhound
-
-##### 方案 B: Ubuntu/Debian 系统手动安装
-
-```bash
-# 1. 网络扫描工具
-sudo apt install -y nmap masscan
-
-# 2. Web应用扫描
-sudo apt install -y sqlmap wpscan nikto ffuf gobuster
-sudo apt install -y dirbuster dirb dirsearch
-
-# 3. 漏洞检测
-# Nuclei 需要 Go 环境，推荐用包管理器或 snap
-sudo snap install nuclei
-# 或从 GitHub 下载
-wget https://github.com/projectdiscovery/nuclei/releases/download/v2.9.0/nuclei_2.9.0_linux_x86_64.zip
-
-# 4. 密码破解
-sudo apt install -y hydra hashcat john medusa patator
-
-# 5. 后渗透工具
-sudo apt install -y bloodhound enum4linux smbmap
-
-# 6. 二进制分析
-sudo apt install -y gdb ghidra radare2 binwalk
-
-# 7. 取证工具
-sudo apt install -y volatility3 steghide
-
-# 8. OSINT 工具
-sudo apt install -y amass subfinder httpx paramspider
-
-# 9. CTF 工具
-pip install pwntools
-sudo apt install -y pwntools angr
-```
-
-##### 方案 C: Docker 容器方案（隔离环境）
-
-```bash
-# 使用包含所有工具的 Kali Linux Docker 镜像
-docker run -it kalilinux/kali-rolling /bin/bash
-
-# 在容器内安装 Python 依赖
+# 安装依赖
 pip install -r requirements.txt
 
-# 启动 Caelum 服务器
-python caelum_server.py
+# 安装 Proxychains4, Chisel, FRP, Nmap 等系统级工具
+sudo apt update && sudo apt install -y proxychains4 nmap masscan sqlmap wpscan hydra
+
+# 启动服务器
+cat config/mcp_config.json  # 确保配置文件存在
+python src/caelum/server.py
 ```
 
-##### 方案 D: 仅安装常用工具（最小化）
+---
 
-如果空间有限，至少安装以下必要工具：
+## 🕹️ 使用指南
 
-```bash
-sudo apt install -y nmap nuclei sqlmap hydra hashcat john
-```
+1. **访问前端界面**
+   容器启动成功后，打开浏览器访问：[http://localhost:8888](http://localhost:8888)
+2. **配置 AI 密钥**
+   在页面设置面板输入对应模型服务商（OpenAI/DeepSeek 等）的 API Key。
+3. **发起自动化渗透测试**
+   - 填入目标 IP、网段或域名（如 `192.168.1.100` 或 `http://target.local`）。
+   - Caelum 会自动从侦察阶段开始，生成可交互的测试报告卡片。
+   - 当遇到第二层网络或内网跳板时，AI 会自动调用 FRP/Chisel 并依托 `proxychains4` 完成内网穿透打击。
 
-**工具安装验证：**
+---
 
-```bash
-# 验证工具是否正确安装
-nmap -v
-nuclei -version
-sqlmap --version
-hydra -h
-hashcat --version
-```
+## 🎯 实战打靶验证
 
-**⚠️ 常见问题：**
+对于实操检验的要求，我们准备了一系列详细的核心操作指南与实战部署验证教材，涵盖系统的交互使用方式以及针对单节点漏洞环境（Vulhub）、仿真靶机（Vulnhub）和多节点高阶靶场（Bugku PAR）的部署方案。
 
-| 问题                        | 原因                     | 解决                                                                        |
-| --------------------------- | ------------------------ | --------------------------------------------------------------------------- |
-| `'nmap' 不是内部命令`       | Windows 未安装 nmap      | [下载官方 nmap 安装包](https://nmap.org/download.html) 或使用 WSL2 + Ubuntu |
-| `nuclei: command not found` | 工具未安装或 PATH 未配置 | `sudo apt install nuclei` 或 `sudo snap install nuclei`                     |
-| `Permission denied`         | 文件权限问题             | `chmod +x /path/to/tool` 或 `sudo` 执行                                     |
-| 工具在 PATH 中找不到        | 安装目录不在系统 PATH    | 添加到 PATH: `export PATH=$PATH:/opt/tools/bin`                             |
+👉 **[点击查看《Caelum 平台基础操作与 Web 交互手册》 (docs/USER_MANUAL.md)](docs/USER_MANUAL.md)**
+👉 **[点击查看《多环境打靶部署与测试指南》 (docs/TARGETS_TESTING_GUIDE.md)](docs/TARGETS_TESTING_GUIDE.md)**
 
-### 功能演示
+---
 
-#### 单一目标自动化测试
+## 🛠️ 系统集成工具全览 (70+ 工具)
 
-```bash
-# 使用API执行自动化测试
-curl -X POST http://localhost:8888/api/automated-test/run \
-  -H "Content-Type: application/json" \
-  -d '{"target": "192.168.1.100", "model": "deepseek"}'
-```
+Caelum 平台作为强大的自动化渗透测试系统，底层集成了超过 70 款业内主流的安全测绘、漏洞发现、爆破利用和高级后渗透工具。所有工具均已与 `caelum_tools_framework.py` 深度封装，支持被 AI 模型根据靶机环境智能调用，并原生支持通过 `proxychains4` 等方式注入内部网络。
 
-#### AI目标分析
+### 1. 内网穿透与隐蔽隧道挖掘 (Pivoting & Tunnels)
 
-```bash
-# AI分析目标系统
-curl -X POST http://localhost:8888/api/ai/analyze-target \
-  -H "Content-Type: application/json" \
-  -d '{"target_info": {"target": "192.168.1.100"}, "model": "gpt-4"}'
-```
+_本组工具在针对 Bugku PAR 等多节点高阶靶场中扮演决定性角色，由 AI 动态调度分配。_
 
-## 核心功能
+- **Proxychains4**: 系统底层的全局代理路由组件，强制目标命令的流量导入 SOCKS5 隧道。
+- **Chisel**: 基于 HTTP 构建的快速 TCP/UDP 隧道工具，常用于穿梭严苛防火墙（Caelum 自带动态端口分配策略）。
+- **FRP (Fast Reverse Proxy)**: 强大的内网反向代理工具，用于建立受控机与 Caelum Server 之间的稳定长连接。
+- **Sshuttle**: 基于 SSH 的透明代理路由工具。
+- **Ligolo-ng**: 基于 TUN 接口的轻量级和快速内网穿透工具。
 
-### 🤖 AI智能分析
+### 2. 信息收集与资产测绘 (Recon & Discovery)
 
-- **目标识别**: 自动识别目标操作系统类型（Windows/Linux）
-- **风险评估**: 基于AI的智能风险等级评估
-- **策略推荐**: 根据目标特征推荐测试策略
-- **报告生成**: 自动生成结构化、美化的Markdown渗透测试报告
+_侦察阶段的核心，用于发现端口、服务、子域名以及目录资产。_
 
-### 📊 美化报告格式
+- **网络扫描**: Nmap, Masscan, RustScan, Naabu.
+- **目录发现与Web侦察**: Gobuster, Dirsearch, Ffuf, Dirb / Dirbuster.
+- **域名及综合 OSINT**: Subfinder, Amass, TheHarvester.
 
-系统生成的渗透测试报告包括：
+### 3. 漏洞发现与评估 (Vulnerability Assessment)
 
-- 🎯 **风险总览表**: 彩色编码的威胁等级 (🔴严重、🟠高危、🟡中危、🟢低危)
-- 📋 **测试方法论**: 标准化的测试流程和工具表
-- 🚨 **详细漏洞分析**: 包括CVSS评分、位置、影响、修复方案、代码示例
-- 📈 **漏洞分布图**: ASCII图表展示漏洞等级分布
-- 🛠️ **优先级修复计划**: 按优先级分层的修复指导（即时/一周/持续改进）
-- ✅ **安全建议**: 立即行动项和长期安全建议
-- 📞 **后续跟进**: 复测计划、技术支持、更新频率
+_配合 AI 大模型的逻辑推理进行针对性的载荷下发发现。_
 
-### 🚀 异步自动化测试
+- **Nuclei**: 强大且高度定制化的基于 YAML 模板的漏洞检测引擎，配合 Caelum 可实现海量自动化漏洞验证。
+- **Nikto / WPScan**: 经典的 Web 服务器及跨端架构检测系统。
+- **SQLMap**: 业界标准的自动化 SQL 注入与数据库接管神器，已与 Caelum 有底层 API 的联动。
+- **XSSer / XSStrike**: 跨站脚本攻击的高效检测模块。
 
-- **后台执行**: 测试在后台线程执行，不阻塞前端
-- **实时进度**: 通过 `/api/automated-test/progress/<session_id>` 获取实时进度
-- **会话管理**: 使用UUID追踪独立的测试会话
-- **多并发**: 支持多个测试并发执行
+### 4. 密码破解与认证攻击 (Password Cracking)
+
+_当 AI 在目标中侦测到弱服务口令或哈希文件时触发的自动化流程。_
+
+- **在线爆破**: Hydra, Medusa, Patator (支持 SSH, FTP, RDP, MySQL, Redis 等数十种协议的并列爆破)。
+- **离线破解**: Hashcat (支持 GPU), John the Ripper (JtR)
+
+### 5. 漏洞利用与接管 (Exploitation)
+
+_Caelum 与各类框架对接，实现从“看”到“控”的落地。_
+
+- **Metasploit Framework (MSF)**: 安全界无可撼动的漏洞利用武器库，支持生成载荷（Payload）以及监听（Listener），Caelum 针对已知 CVE 可直接呼叫其 msfconsole 组件。
+- **SearchSploit**: Exploit-DB 离线归档的极速命令行查询器，用于让大模型快速获阅最新概念验证码（POC）。
+- **Commix / BeEF**: 专注命令注入及浏览器侧跨端利用的自动化框架。
+
+### 6. 后渗透与内网横向移动 (Post-Exploitation)
+
+_服务于漏洞拿下一台跳板机后，针对域环境或深层网络的数据与权限猎取。_
+
+- **Impacket**: 包含由于 MS14-068、Pass-the-Hash 等攻击的 Python 标准库及利用工具集。
+- **BloodHound**: 针对 Active Directory（活动目录）复杂的提权路径与资产网络的高效图论分析工具采集端。
+- **Responder**: 获取和污染内网 NBT-NS、LLMNR 广播包从而投毒抓取哈希的王牌工具。
+- **CrackMapExec (CME) / NetExec**: 面向企业级内网的极速密码喷洒和横向渗透大杀器。
+- **Enum4linux / Mimikatz**: Samba 信息拉取器及内存明文凭证/票据提取提取利器。
+
+### 7. 逆向工程、取证及杂项分析 (RE & Forensics)
+
+_主要针对服务外包大赛中可能出现的 CTF 特质环节（如杂项或二进制分析）所适配的工具层。_
+
+- **二进制分析**: GDB (配合 Pwndbg/GEF), Ghidra, Radare2 / r2, Binwalk (固件分析)。
+- **流量分析**: Tshark, Tcpdump。
+- **隐写及杂项**: Steghide, Exiftool, Foremost, Volatility 3。
+
+---
+
+## 🛡️ 法律与免责声明
+
+本项目及相关代码**仅**供高等院校计算机安全教学、合法的攻防演练以及授权的安全评估测试使用。不得用于任何未授权的计算机系统非法入侵或破坏活动。因使用本系统造成的任何直接或间接的法律后果，均由使用者本人承担，项目开发者不承担任何连带责任。
+
+## 📜 许可证
+
+Caelum 基于 [MIT License](LICENSE) 发布。
 
 ### 🛠️ 工具集成
 

@@ -33,7 +33,7 @@ async function loadTestHistory() {
       renderSidebarHistory(data.history);
 
       const now = Date.now();
-      const activeTasks = data.history.filter((h) => {
+      let activeTasks = data.history.filter((h) => {
         if (h.status === "running") return true;
         if (h.status === "completed" || h.status === "failed") {
           if (!recentCompletedSessions.has(h.session_id)) {
@@ -44,6 +44,21 @@ async function loadTestHistory() {
         }
         return false;
       });
+
+      // 拉取运行中任务的具体进度
+      for (let i = 0; i < activeTasks.length; i++) {
+        if (activeTasks[i].status === "running") {
+          try {
+            const progRes = await fetch(
+              "/api/automated-test/progress/" + activeTasks[i].session_id,
+            );
+            const progData = await progRes.json();
+            if (progData.success && progData.progress) {
+              activeTasks[i]._realProgress = progData.progress;
+            }
+          } catch (e) {}
+        }
+      }
 
       renderActiveTasksUI(activeTasks);
     }
@@ -170,7 +185,7 @@ function renderActiveTasksUI(tasks) {
       color = task.status === "failed" ? "#e74c3c" : "#10b981";
       text =
         task.status === "failed"
-          ? "测试中断或失败！"
+          ? "测试中断或失败！" + (task.error ? ` 分析引擎: ${task.error}` : "")
           : "测试全面完成与报告生成！";
       if (stages.length >= 3) {
         exploitIcon = task.status === "failed" ? "❌" : "✅";
@@ -179,6 +194,9 @@ function renderActiveTasksUI(tasks) {
       } else if (stages.length === 1 && task.status === "failed") {
         reconIcon = "❌";
       }
+    } else if (task._realProgress) {
+      width = task._realProgress.percentage + "%";
+      text = task._realProgress.message || text;
     }
 
     html += `
@@ -190,6 +208,10 @@ function renderActiveTasksUI(tasks) {
         <div class="progress-track" style="margin-bottom:8px;">
           <div class="progress-fill" style="width: ${width}; background-color: ${color};"></div>
         </div>
+        <div style="font-size:12px; color:#9ca3af; margin-bottom:8px; display:flex; justify-content:space-between;">
+           <span>实时日志: ${text}</span>
+           <span>${width}</span>
+        </div>
         <div class="state-machine-ui" style="display:flex; align-items:center; font-size:12px; font-weight:600; margin-bottom:12px; overflow:hidden;">
            <span style="color:${stages.length >= 1 ? "#3b82f6" : "#a0aec0"}">🌐 Initial</span>
            <span style="margin:0 5px; color:#cbd5e1;">➔</span>
@@ -199,7 +221,7 @@ function renderActiveTasksUI(tasks) {
            <span style="margin:0 5px; color:#cbd5e1;">➔</span>
            <span style="color:${task.status === "completed" && stages.length >= 3 ? "#10b981" : "#a0aec0"}">🕵️ Lateral Make</span>
         </div>
-        <div class="progress-status" style="margin-top:0;">${text}</div>
+        <div class="progress-status" style="margin-top:0;">当前操作：${text}</div>
         <div class="progress-stages">
           <span>🔍 信息聚合 <span style="font-size:1.2em;">${reconIcon}</span></span>
           <span>🪲 深度扫描 <span style="font-size:1.2em;">${scanIcon}</span></span>
@@ -277,17 +299,25 @@ window.viewReport = function (sessionId, status) {
     return showToast("任务未完成不能生成报告", "warning");
   }
   showToast("报告渲染中...", "success");
+
+  // 必须在 onClick 同步立即打开新窗口，否则会被浏览器弹窗拦截器(Popup Blocker)拦截
+  const w = window.open("", "_blank");
+  w.document.write("<h2>✨ 正在生成并渲染安全评估报告，请稍候...</h2>");
+
   fetch("/api/automated-test/report/" + sessionId)
     .then((r) => r.json())
     .then((data) => {
-      if (!data.report) return showToast("获取报告内容失败", "error");
+      if (!data.report) {
+        w.close();
+        return showToast("获取报告内容失败，后端生成异常", "error");
+      }
 
-      const w = window.open("", "_blank");
       let html =
         typeof marked !== "undefined"
           ? marked.parse(data.report)
           : data.report.replace(/\n/g, "<br>");
 
+      w.document.open();
       w.document.write(`
         <!DOCTYPE html>
         <html lang="zh-CN">

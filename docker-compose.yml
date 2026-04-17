@@ -5,8 +5,8 @@ services:
       context: .
       dockerfile: deploy/Dockerfile
     container_name: caelum-server
-    network_mode: "host" # 【重要】改为 host 网络模式，让端口直接连通，内网穿透更方便
-    privileged: true # 【重要】高权限，允许 Nmap 等发特殊的底层数据包
+    network_mode: "host"
+    privileged: true
     environment:
       # AI 模型 API 密钥
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
@@ -19,8 +19,6 @@ services:
       - caelum-data:/app/data
       - caelum-reports:/app/reports
       - caelum-cache:/app/.cache
-    networks:
-      - caelum-network
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8888/health"]

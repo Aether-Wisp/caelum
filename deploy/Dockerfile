@@ -49,17 +49,15 @@ RUN apt-get update && \
     screen \
     git-all
 
-# 安装 ffuf, gobuster, nuclei 等 Go 工具
+# 安装 ffuf, gobuster, nuclei 等工具
 RUN apt-get install -y \
     ffuf \
     gobuster \
-    wfuzz
-
-# 安装 Go 工具
-RUN GO111MODULE=on go get -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei && \
-    GO111MODULE=on go get -v github.com/OWASP/Amass/v3/... && \
-    GO111MODULE=on go get -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder && \
-    GO111MODULE=on go get -v github.com/projectdiscovery/httpx/cmd/httpx
+    wfuzz \
+    nuclei \
+    amass \
+    subfinder \
+    httpx-toolkit
 
 # 设置工作目录
 WORKDIR /app
@@ -67,10 +65,10 @@ WORKDIR /app
 # 复制项目文件
 COPY . /app/
 
-# 安装 Python 依赖
-RUN pip3 install --upgrade pip && \
-    pip3 install -r requirements.txt && \
-    pip3 install pwntools angr shodan censys
+# 安装 Python 依赖 (添加 --break-system-packages 以绕过最新 Kali 的 PEP 668 限制)
+RUN pip3 install --upgrade pip --break-system-packages && \
+    pip3 install -r requirements.txt --break-system-packages && \
+    pip3 install pwntools angr shodan censys --break-system-packages
 
 # 创建虚拟环境（可选）
 RUN python3 -m venv /opt/caelum_env

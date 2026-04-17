@@ -359,7 +359,7 @@ class AutomatedTestEngine:
         }
 
         # 如果没有真实的大模型客户端，直接告警并返回错误，不再使用粗糙的硬编码流水线
-        if not self.openai_client:
+        if not self.ai_analyzer.openai_client:
             error_msg = "缺少有效的 API Key。请配置大模型后启用真正的 Agent 自主测试。"
             logger.error(error_msg)
             test_session["status"] = "failed"

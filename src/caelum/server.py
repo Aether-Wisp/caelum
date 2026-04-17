@@ -20,6 +20,7 @@ from ai_analyzer import AIAnalyzer, AutomatedTestEngine
 import psutil
 import time
 import os
+from datetime import datetime
 from dotenv import load_dotenv
 
 # 加载环境变量
@@ -429,7 +430,20 @@ def get_test_progress(session_id: str):
 def get_test_history():
     """获取测试历史"""
     try:
-        history = automated_test_engine.test_history
+        # 深拷贝已完成的历史，防止并发修改
+        history = list(automated_test_engine.test_history)
+
+        # 补全当前正在运行的任务 (来自进度存储)
+        with test_progress_lock:
+            for sid, progress in test_progress_store.items():
+                if progress.get("status") == "running":
+                    history.append({
+                        "session_id": sid,
+                        "target": progress.get("target"),
+                        "status": "running",
+                        "start_time": datetime.now().isoformat()
+                    })
+
         return jsonify({
             "success": True,
             "history": history[-10:]  # 返回最近10个测试记录
