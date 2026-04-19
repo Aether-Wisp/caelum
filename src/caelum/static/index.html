@@ -1,132 +1,148 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Caelum 智能渗透测试系统</title>
+    <title>Caelum 渗透测试系统</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/static/new_style.css" />
   </head>
   <body>
-    <!-- 左侧导航和历史栏 -->
-    <aside class="sidebar">
-      <div class="logo">
-        <span class="logo-icon">🛡️</span>
-        <h1>Caelum</h1>
-      </div>
-
-      <div class="nav-menu">
-        <div class="nav-item active">
-          <span>🕒 任务管理</span>
+    <div class="layout-root">
+      <aside class="sidebar">
+        <div class="logo">
+          <div class="logo-badge">C</div>
+          <div class="logo-text">Caelum</div>
         </div>
-      </div>
 
-      <div class="history-container">
-        <div class="history-title">📋 测试历史</div>
-        <div class="history-list" id="sidebar-history-list">
-          <div class="empty-state">暂无测试记录</div>
+        <div class="nav-menu">
+          <div class="nav-item active"><span>测试任务</span></div>
+          <div class="nav-item"><span>Payload生成</span></div>
+          <div class="nav-item"><span>历史日志</span></div>
         </div>
-      </div>
-    </aside>
 
-    <!-- 右侧主内容区 -->
-    <main class="main-content">
-      <div class="header-section">
-        <h1 class="main-title">🚀 Caelum v8.0</h1>
-        <p class="subtitle">AI驱动的复杂场景多级渗透测试平台 (支持Bugku PAR)</p>
-        <p class="desc">
-          输入目标节点，系统自动完成信息收集、漏洞扫描及内网横向移动分析
-        </p>
-      </div>
-
-      <!-- 核心功能卡片网格 -->
-      <div class="cards-grid">
-        <!-- 左卡片：开始测试 -->
-        <div class="card">
-          <div
-            style="
-              display: flex;
-              align-items: flex-end;
-              justify-content: space-between;
-              margin-bottom: 20px;
-            "
-          >
-            <h2 style="margin-bottom: 0">🎯 开始渗透测试</h2>
-            <span
-              style="
-                font-size: 12px;
-                color: #10b981;
-                font-weight: 600;
-                background: rgba(16, 185, 129, 0.1);
-                padding: 4px 8px;
-                border-radius: 12px;
-              "
-              >✅ 多阶段链式攻击引擎已就绪</span
-            >
+        <div class="history-container">
+          <div class="history-title">测试历史</div>
+          <div class="history-list" id="sidebar-history-list">
+            <div class="empty-state">暂无测试记录</div>
           </div>
-          <form id="main-test-form">
-            <div class="form-group">
-              <label>目标IP地址或域名(至多支持4个目标,逗号分隔):</label>
-              <input
-                type="text"
-                id="target-ip"
-                required
-                placeholder="例如: 192.168.1.100, example.com"
-              />
-            </div>
-            <div class="form-group">
-              <label>AI分析模型:</label>
-              <select id="ai-model-select">
-                <option value="gpt-4">GPT-4 (推荐)</option>
-                <option value="deepseek">DeepSeek</option>
-                <option value="claude-3">Claude-3</option>
-              </select>
-            </div>
-            <button type="submit" class="btn btn-primary" id="start-test-btn">
-              🚀 开始智能渗透测试
-            </button>
-          </form>
-
-          <!-- 测试进度区域 (多目标并发卡片) -->
-          <div id="active-tasks-container" class="active-tasks-container"></div>
         </div>
 
-        <!-- 右卡片：Payload生成 -->
-        <div class="card dark-card">
-          <h2>🎯 Payload 生成器</h2>
-          <form id="payload-form">
-            <div class="form-group">
-              <label>PAYLOAD 类型:</label>
-              <select id="payload-type">
-                <option value="">选择一个类型...</option>
-                <option value="xss">XSS Payload</option>
-                <option value="sqli">SQLi Payload</option>
-                <option value="rce">RCE Payload</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>参数 (JSON 格式):</label>
-              <textarea
-                id="payload-params"
-                rows="5"
-                placeholder='示例: {"length": 10, "encoding": "base64"}'
-              ></textarea>
-            </div>
-            <button type="submit" class="btn btn-success">
-              🚀 生成 Payload
-            </button>
-          </form>
-          <div
-            id="payload-result"
-            class="payload-result"
-            style="display: none"
-          ></div>
+        <div class="profile-block">
+          <div class="profile-avatar">A</div>
+          <div>
+            <div class="profile-name">管理员</div>
+            <div class="profile-email">admin@caelum.local</div>
+          </div>
         </div>
-      </div>
-    </main>
+      </aside>
+
+      <section class="content-shell">
+        <header class="topbar">
+          <h1 class="topbar-title">安全测试任务</h1>
+          <div class="topbar-actions">
+            <button class="icon-btn" aria-label="通知">●</button>
+            <button class="icon-btn" aria-label="设置">⚙</button>
+            <button class="icon-btn" aria-label="帮助">?</button>
+          </div>
+        </header>
+
+        <main class="main-content">
+          <div class="header-section">
+            <h2 class="main-title">Caelum v8.0 渗透测试工作台</h2>
+            <p class="subtitle">AI驱动的复杂场景多级渗透测试平台</p>
+            <p class="desc">
+              输入目标节点，系统自动完成资产侦察、漏洞扫描、利用验证与报告生成
+            </p>
+          </div>
+
+          <div class="cards-grid">
+            <div class="card">
+              <div class="card-head">
+                <h3>新建安全测试任务</h3>
+                <span class="card-tag">多阶段引擎已就绪</span>
+              </div>
+
+              <form id="main-test-form">
+                <div class="form-group">
+                  <label for="target-ip"
+                    >目标IP地址或域名(至多支持4个目标,逗号分隔):</label
+                  >
+                  <input
+                    type="text"
+                    id="target-ip"
+                    required
+                    placeholder="例如: 192.168.1.100, example.com"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="ai-model-select">AI分析模型:</label>
+                  <select id="ai-model-select">
+                    <option value="gpt-4">GPT-4 (推荐)</option>
+                    <option value="deepseek">DeepSeek</option>
+                    <option value="claude-3">Claude-3</option>
+                  </select>
+                </div>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  id="start-test-btn"
+                >
+                  开始智能渗透测试
+                </button>
+              </form>
+
+              <div
+                id="active-tasks-container"
+                class="active-tasks-container"
+              ></div>
+            </div>
+
+            <div class="card dark-card">
+              <div class="card-head">
+                <h3>Payload 生成器</h3>
+              </div>
+
+              <form id="payload-form">
+                <div class="form-group">
+                  <label for="payload-type">PAYLOAD 类型:</label>
+                  <select id="payload-type">
+                    <option value="">选择一个类型...</option>
+                    <option value="xss">XSS Payload</option>
+                    <option value="sqli">SQLi Payload</option>
+                    <option value="rce">RCE Payload</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="payload-params">参数 (JSON 格式):</label>
+                  <textarea
+                    id="payload-params"
+                    rows="5"
+                    placeholder='示例: {"length": 10, "encoding": "base64"}'
+                  ></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-success">
+                  生成 Payload
+                </button>
+              </form>
+
+              <div
+                id="payload-result"
+                class="payload-result"
+                style="display: none"
+              ></div>
+            </div>
+          </div>
+        </main>
+      </section>
+    </div>
 
     <div id="toast" class="toast"></div>
 

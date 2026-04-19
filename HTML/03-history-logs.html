@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>历史日志</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../src/caelum/static/css/caelum.css" />
+  </head>
+  <body>
+    <main class="flex-1 overflow-y-auto p-6">
+      <div class="card bg-white rounded-lg shadow-sm">
+        <!-- Header with Filters -->
+        <div class="p-6 border-b border-gray-200">
+          <div class="flex justify-between items-center">
+            <h2 class="text-xl font-semibold text-[#262626]">历史日志</h2>
+            <div class="flex items-center space-x-2">
+              <input
+                type="text"
+                placeholder="搜索IP或关键词..."
+                class="input-field w-48 px-3 py-2 border border-gray-300 rounded-lg text-sm"
+              />
+              <select
+                class="input-field px-3 py-2 border border-gray-300 rounded-lg text-sm"
+              >
+                <option>所有等级</option>
+                <option>严重</option>
+                <option>高危</option>
+                <option>中危</option>
+                <option>低危</option>
+              </select>
+              <input
+                type="date"
+                class="input-field px-3 py-2 border border-gray-300 rounded-lg text-sm"
+              />
+              <button
+                class="btn-primary px-4 py-2 bg-[#1677ff] text-white rounded-lg text-sm font-medium"
+              >
+                筛选
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Log Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left text-[#595959]">
+            <thead class="text-xs text-[#8c8c8c] uppercase bg-[#f0f2f5]">
+              <tr>
+                <th scope="col" class="px-6 py-3">测试目标 IP</th>
+                <th scope="col" class="px-6 py-3">测试时间</th>
+                <th scope="col" class="px-6 py-3">危险等级</th>
+                <th scope="col" class="px-6 py-3">漏洞数量</th>
+                <th scope="col" class="px-6 py-3 text-center">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="log-row bg-white border-b">
+                <td class="px-6 py-4 font-medium text-[#262626]">
+                  101.34.21.118
+                </td>
+                <td class="px-6 py-4">2024-04-16 10:30:15</td>
+                <td class="px-6 py-4">
+                  <span class="status-badge severe">严重</span>
+                </td>
+                <td class="px-6 py-4">5</td>
+                <td class="px-6 py-4 text-center space-x-2">
+                  <button class="font-medium text-[#1677ff] hover:underline">
+                    详情
+                  </button>
+                  <button class="font-medium text-[#1677ff] hover:underline">
+                    下载报告
+                  </button>
+                </td>
+              </tr>
+              <tr class="log-row bg-white border-b">
+                <td class="px-6 py-4 font-medium text-[#262626]">
+                  218.94.15.201
+                </td>
+                <td class="px-6 py-4">2024-04-15 18:12:45</td>
+                <td class="px-6 py-4">
+                  <span class="status-badge high">高危</span>
+                </td>
+                <td class="px-6 py-4">2</td>
+                <td class="px-6 py-4 text-center space-x-2">
+                  <button class="font-medium text-[#1677ff] hover:underline">
+                    详情
+                  </button>
+                  <button class="font-medium text-[#1677ff] hover:underline">
+                    下载报告
+                  </button>
+                </td>
+              </tr>
+              <tr class="log-row bg-white border-b">
+                <td class="px-6 py-4 font-medium text-[#262626]">
+                  example.com
+                </td>
+                <td class="px-6 py-4">2024-04-15 09:05:22</td>
+                <td class="px-6 py-4">
+                  <span class="status-badge medium">中危</span>
+                </td>
+                <td class="px-6 py-4">8</td>
+                <td class="px-6 py-4 text-center space-x-2">
+                  <button class="font-medium text-[#1677ff] hover:underline">
+                    详情
+                  </button>
+                  <button class="font-medium text-[#1677ff] hover:underline">
+                    下载报告
+                  </button>
+                </td>
+              </tr>
+              <tr class="log-row bg-white border-b">
+                <td class="px-6 py-4 font-medium text-[#262626]">
+                  192.168.1.100
+                </td>
+                <td class="px-6 py-4">2024-04-14 22:45:00</td>
+                <td class="px-6 py-4">
+                  <span class="status-badge low">低危</span>
+                </td>
+                <td class="px-6 py-4">12</td>
+                <td class="px-6 py-4 text-center space-x-2">
+                  <button class="font-medium text-[#1677ff] hover:underline">
+                    详情
+                  </button>
+                  <button class="font-medium text-[#1677ff] hover:underline">
+                    下载报告
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="p-4 flex justify-between items-center">
+          <span class="text-sm text-[#8c8c8c]">显示 1-4 of 50 条记录</span>
+          <div class="flex items-center space-x-2">
+            <button class="px-3 py-1 border rounded-lg hover:bg-gray-100">
+              &laquo;
+            </button>
+            <button class="px-3 py-1 border rounded-lg bg-[#1677ff] text-white">
+              1
+            </button>
+            <button class="px-3 py-1 border rounded-lg hover:bg-gray-100">
+              2
+            </button>
+            <button class="px-3 py-1 border rounded-lg hover:bg-gray-100">
+              3
+            </button>
+            <button class="px-3 py-1 border rounded-lg hover:bg-gray-100">
+              &raquo;
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
