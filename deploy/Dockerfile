@@ -66,9 +66,17 @@ WORKDIR /app
 COPY . /app/
 
 # 安装 Python 依赖 (添加 --break-system-packages 以绕过最新 Kali 的 PEP 668 限制)
-RUN pip3 install --upgrade pip --break-system-packages && \
-    pip3 install -r requirements.txt --break-system-packages && \
-    pip3 install pwntools angr shodan censys --break-system-packages
+# 先安装 python3-venv 依赖（关键修复步骤）
+RUN apt-get update && apt-get install -y python3-venv
+
+# 创建虚拟环境并配置路径
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# 在虚拟环境里安装依赖
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt && \
+    pip install pwntools angr shodan censys
 
 # 创建虚拟环境（可选）
 RUN python3 -m venv /opt/caelum_env

@@ -1,321 +1,145 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-  </head>
-  <body>
-    <main class="flex-1 overflow-y-auto p-6">
-      <div class="grid grid-cols-2 gap-6">
-        <!-- Left Column: New Test Task Form -->
-        <div class="space-y-6">
-          <!-- New Task Card -->
-          <div class="card bg-white rounded-lg shadow-sm p-6">
-            <h2
-              class="text-lg font-semibold text-[#262626] mb-6 flex items-center"
-            >
-              <iconify-icon
-                icon="lucide:plus-circle"
-                class="text-xl mr-2 text-[#1677ff]"
-              ></iconify-icon>
-              新建安全测试任务
-            </h2>
-
-            <!-- Target Input -->
-            <div class="mb-6">
-              <label class="block text-sm font-medium text-[#262626] mb-2">
-                测试目标 <span class="text-[#ff4d4f]">*</span>
-              </label>
-              <div class="flex space-x-2">
-                <input
-                  type="text"
-                  id="target-input"
-                  placeholder="输入域名或IP地址，例如：example.com 或 192.168.1.1"
-                  class="input-field flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm"
-                />
-                <button
-                  id="add-target-btn"
-                  class="btn-primary px-4 py-2 bg-[#1677ff] text-white rounded-lg text-sm font-medium flex items-center"
-                >
-                  <iconify-icon icon="lucide:plus" class="mr-1"></iconify-icon>
-                  添加
-                </button>
-              </div>
-
-              <!-- Target List -->
-              <div id="target-list" class="mt-3 space-y-2">
-                <div
-                  class="target-item flex items-center justify-between bg-[#f0f2f5] px-3 py-2 rounded-lg"
-                >
-                  <span class="text-sm text-[#595959]">192.168.1.100</span>
-                  <button
-                    class="text-[#8c8c8c] hover:text-[#ff4d4f] transition-colors"
-                  >
-                    <iconify-icon icon="lucide:x"></iconify-icon>
-                  </button>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <main class="flex-1 w-full max-w-[1600px] mx-auto fade-in">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Left Column: New Test Task Form -->
+            <div class="lg:col-span-4 space-y-8">
+                <!-- New Task Card -->
+                <div class="neu-card p-8">
+                    <h2 class="text-[18px] font-medium text-[#1D2129] mb-8 flex items-center tracking-tight">
+                        <iconify-icon icon="lucide:plus-circle" class="text-[22px] mr-3 text-[#1677FF]"></iconify-icon>
+                        新建安全测试任务
+                    </h2>
+                    
+                    <!-- Target Input -->
+                    <div class="mb-8">
+                        <label class="block text-[14px] font-medium text-[#4E5969] mb-3">
+                            测试目标 <span class="text-[#FF4D4F] ml-1">*</span>
+                        </label>
+                        <div class="flex space-x-3">
+                            <input 
+                                type="text" 
+                                id="target-input"
+                                placeholder="如: example.com 或 192.168.1.1"
+                                class="neu-input flex-1 text-[14px] placeholder-[#86909C]"
+                            />
+                            <button id="add-target-btn" class="neu-btn-primary px-5 py-2.5 text-[14px]">
+                                <iconify-icon icon="lucide:plus" class="mr-1"></iconify-icon>
+                                添加
+                            </button>
+                        </div>
+                        
+                        <!-- Target List -->
+                        <div id="target-list" class="mt-4 space-y-3">
+                            <!-- Populated dynamically -->
+                            <div class="flex items-center justify-between bg-[#F7F9FC] px-4 py-2.5 rounded-xl border border-[#E5E6EB]/50 shadow-sm">
+                                <span class="text-[14px] text-[#4E5969]">192.168.1.100</span>
+                                <button class="text-[#86909C] hover:text-[#FF4D4F] transition-colors w-6 h-6 flex items-center justify-center rounded-md hover:bg-white pb-[2px] shadow-none">
+                                    <iconify-icon icon="lucide:x"></iconify-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Model Selection -->
+                    <div class="mb-10">
+                        <label class="block text-[14px] font-medium text-[#4E5969] mb-4">
+                            测试模型选择 <span class="text-[#FF4D4F] ml-1">*</span>
+                        </label>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="neu-model-tab selected" data-model="deepseek">
+                                <iconify-icon icon="lucide:brain" class="text-[26px] mb-2.5"></iconify-icon>
+                                <div class="text-[14px] font-semibold text-[#1D2129]">DeepSeek</div>
+                                <div class="text-[12px] opacity-70 mt-1">深度推理</div>
+                            </div>
+                            <div class="neu-model-tab" data-model="chatgpt">
+                                <iconify-icon icon="lucide:sparkles" class="text-[26px] mb-2.5"></iconify-icon>
+                                <div class="text-[14px] font-semibold text-[#1D2129]">ChatGPT</div>
+                                <div class="text-[12px] opacity-70 mt-1">通用智能</div>
+                            </div>
+                            <div class="neu-model-tab" data-model="claude">
+                                <iconify-icon icon="lucide:zap" class="text-[26px] mb-2.5"></iconify-icon>
+                                <div class="text-[14px] font-semibold text-[#1D2129]">Claude</div>
+                                <div class="text-[12px] opacity-70 mt-1">安全专家</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Start Test Button -->
+                    <div class="flex justify-center pt-2">
+                        <button id="start-test-btn" class="neu-btn-primary w-full py-3.5 text-[16px] tracking-wide">
+                            <iconify-icon icon="lucide:play" class="text-[20px] mr-2"></iconify-icon>
+                            开始测试
+                        </button>
+                    </div>
                 </div>
-              </div>
             </div>
+            
+            <!-- Right Column: Status Monitor and Logs -->
+            <div class="lg:col-span-8 space-y-8 flex flex-col h-full">
+                <!-- Task Status Monitor -->
+                <div class="neu-card p-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-[18px] font-medium text-[#1D2129] flex items-center">
+                            <iconify-icon icon="lucide:activity" class="text-[22px] mr-3 text-[#1677FF]"></iconify-icon>
+                            任务状态监控
+                        </h3>
+                        <span id="task-status-badge" class="neu-badge low px-4 py-1.5 text-[13px]">
+                            等待就绪
+                        </span>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <!-- Progress Bar -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[14px] text-[#86909C]">测试进度</span>
+                                <span id="task-progress-text" class="text-[16px] font-semibold text-[#1677FF]">0%</span>
+                            </div>
+                            <div class="w-full bg-[#E5E6EB]/50 rounded-full h-3 overflow-hidden shadow-inner">
+                                <div id="task-progress-bar" class="bg-[#1677FF] h-full rounded-full transition-all duration-700 ease-out" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Stats Grid -->
+                        <div class="grid grid-cols-2 gap-6 pt-2">
+                            <div class="bg-[#F7F9FC] rounded-2xl p-5 shadow-[inset_2px_2px_5px_rgba(200,206,215,0.2)]">
+                                <div class="text-[13px] text-[#86909C] mb-1.5 flex justify-between">检测项 <iconify-icon icon="lucide:crosshair"></iconify-icon></div>
+                                <div class="text-[24px] font-bold text-[#1D2129]" id="task-total">0</div>
+                            </div>
+                            <div class="bg-[#F7F9FC] rounded-2xl p-5 shadow-[inset_2px_2px_5px_rgba(200,206,215,0.2)]">
+                                <div class="text-[13px] text-[#86909C] mb-1.5 flex justify-between">已完成 <iconify-icon icon="lucide:check-circle"></iconify-icon></div>
+                                <div class="text-[24px] font-bold text-[#1D2129]" id="task-done">0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Log Report -->
+                <div class="neu-card p-8 flex-1 flex flex-col min-h-[300px]">
+                    <h3 class="text-[18px] font-medium text-[#1D2129] mb-5 flex items-center">
+                        <iconify-icon icon="lucide:file-text" class="text-[22px] mr-3 text-[#1677FF]"></iconify-icon>
+                        测试报告日志
+                    </h3>
+                    
+                    <div class="bg-[#F7F9FC] shadow-[inset_4px_4px_8px_rgba(200,206,215,0.3),inset_-4px_-4px_8px_rgba(255,255,255,0.8)] border-none rounded-xl p-5 flex-1 overflow-y-auto mb-6">
+                        <div class="space-y-3 text-[13px] font-mono text-[#4E5969]" id="live-logs-container">
+                            <!-- Injected by API -->
+                            <div>[等待系统初始化...] 日志监听中</div>
+                        </div>
+                    </div>
 
-            <!-- Model Selection -->
-            <div class="mb-6">
-              <label class="block text-sm font-medium text-[#262626] mb-3">
-                测试模型选择 <span class="text-[#ff4d4f]">*</span>
-              </label>
-              <div class="grid grid-cols-3 gap-3">
-                <div
-                  class="model-tab selected border-2 border-gray-200 rounded-lg p-4 text-center cursor-pointer transition-all hover:shadow-sm"
-                  data-model="deepseek"
-                >
-                  <iconify-icon
-                    icon="lucide:brain"
-                    class="text-2xl text-[#1677ff] mb-2"
-                  ></iconify-icon>
-                  <div class="text-sm font-medium text-[#262626]">DeepSeek</div>
-                  <div class="text-xs text-[#8c8c8c] mt-1">深度推理</div>
+                    <div class="flex space-x-5">
+                        <button class="neu-btn-secondary flex-1 py-3">查看详细报告</button>
+                        <button class="neu-btn-secondary flex-1 py-3 text-[#1677FF]"><iconify-icon icon="lucide:download" class="mr-2"></iconify-icon>下载 PDF</button>
+                    </div>
                 </div>
-                <div
-                  class="model-tab border-2 border-gray-200 rounded-lg p-4 text-center cursor-pointer transition-all hover:shadow-sm"
-                  data-model="chatgpt"
-                >
-                  <iconify-icon
-                    icon="lucide:sparkles"
-                    class="text-2xl text-[#8c8c8c] mb-2"
-                  ></iconify-icon>
-                  <div class="text-sm font-medium text-[#595959]">ChatGPT</div>
-                  <div class="text-xs text-[#8c8c8c] mt-1">通用智能</div>
-                </div>
-                <div
-                  class="model-tab border-2 border-gray-200 rounded-lg p-4 text-center cursor-pointer transition-all hover:shadow-sm"
-                  data-model="claude"
-                >
-                  <iconify-icon
-                    icon="lucide:zap"
-                    class="text-2xl text-[#8c8c8c] mb-2"
-                  ></iconify-icon>
-                  <div class="text-sm font-medium text-[#595959]">Claude</div>
-                  <div class="text-xs text-[#8c8c8c] mt-1">安全专家</div>
-                </div>
-              </div>
             </div>
-
-            <!-- Start Test Button -->
-            <div class="flex justify-center pt-4">
-              <button
-                id="start-test-btn"
-                class="btn-primary px-8 py-3 bg-[#1677ff] text-white rounded-lg font-medium flex items-center"
-              >
-                <iconify-icon
-                  icon="lucide:play"
-                  class="text-lg mr-2"
-                ></iconify-icon>
-                开始测试
-              </button>
-            </div>
-          </div>
         </div>
-
-        <!-- Right Column: Status Monitor and Logs -->
-        <div class="space-y-6">
-          <!-- Task Status Monitor -->
-          <div class="card bg-white rounded-lg shadow-sm p-6">
-            <div class="flex items-center justify-between mb-4">
-              <h3
-                class="text-base font-semibold text-[#262626] flex items-center"
-              >
-                <iconify-icon
-                  icon="lucide:activity"
-                  class="text-lg mr-2 text-[#1677ff]"
-                ></iconify-icon>
-                任务状态监控
-              </h3>
-              <span
-                class="status-badge running px-3 py-1 bg-[#52c41a]/10 text-[#52c41a] text-xs font-medium rounded-full flex items-center"
-              >
-                <span class="w-1.5 h-1.5 bg-[#52c41a] rounded-full mr-2"></span>
-                运行中
-              </span>
-            </div>
-
-            <div class="space-y-4">
-              <div class="flex items-center justify-between">
-                <span class="text-sm text-[#8c8c8c]">任务ID</span>
-                <span class="text-sm font-medium text-[#262626]"
-                  >TASK-2024-001</span
-                >
-              </div>
-
-              <div>
-                <div class="flex items-center justify-between mb-2">
-                  <span class="text-sm text-[#8c8c8c]">测试进度</span>
-                  <span class="text-sm font-medium text-[#1677ff]">68%</span>
-                </div>
-                <div
-                  class="w-full bg-gray-200 rounded-full h-2 overflow-hidden"
-                >
-                  <div
-                    class="progress-bar bg-[#1677ff] h-2 rounded-full"
-                    style="width: 68%"
-                  ></div>
-                </div>
-              </div>
-
-              <div class="grid grid-cols-2 gap-4 pt-2">
-                <div class="bg-[#f0f2f5] rounded-lg p-3 border border-gray-100">
-                  <div class="text-xs text-[#8c8c8c] mb-1">检测项</div>
-                  <div class="text-lg font-semibold text-[#262626]">156</div>
-                </div>
-                <div class="bg-[#f0f2f5] rounded-lg p-3 border border-gray-100">
-                  <div class="text-xs text-[#8c8c8c] mb-1">已完成</div>
-                  <div class="text-lg font-semibold text-[#262626]">106</div>
-                </div>
-              </div>
-
-              <div class="border-t border-gray-200 pt-4">
-                <div class="text-sm font-medium text-[#262626] mb-3">
-                  漏洞统计
-                </div>
-                <div class="space-y-2">
-                  <div
-                    class="flex items-center justify-between cursor-pointer hover:bg-gray-50 p-1 rounded transition-colors"
-                  >
-                    <span class="text-sm text-[#8c8c8c] flex items-center">
-                      <span
-                        class="w-2 h-2 bg-[#ff4d4f] rounded-full mr-2"
-                      ></span>
-                      高危
-                    </span>
-                    <span class="text-sm font-semibold text-[#ff4d4f]">3</span>
-                  </div>
-                  <div
-                    class="flex items-center justify-between cursor-pointer hover:bg-gray-50 p-1 rounded transition-colors"
-                  >
-                    <span class="text-sm text-[#8c8c8c] flex items-center">
-                      <span
-                        class="w-2 h-2 bg-[#faad14] rounded-full mr-2"
-                      ></span>
-                      中危
-                    </span>
-                    <span class="text-sm font-semibold text-[#faad14]">7</span>
-                  </div>
-                  <div
-                    class="flex items-center justify-between cursor-pointer hover:bg-gray-50 p-1 rounded transition-colors"
-                  >
-                    <span class="text-sm text-[#8c8c8c] flex items-center">
-                      <span
-                        class="w-2 h-2 bg-[#52c41a] rounded-full mr-2"
-                      ></span>
-                      低危
-                    </span>
-                    <span class="text-sm font-semibold text-[#52c41a]">12</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Log Report -->
-          <div class="card bg-white rounded-lg shadow-sm p-6">
-            <h3
-              class="text-base font-semibold text-[#262626] mb-4 flex items-center"
-            >
-              <iconify-icon
-                icon="lucide:file-text"
-                class="text-lg mr-2 text-[#1677ff]"
-              ></iconify-icon>
-              测试报告日志
-            </h3>
-
-            <div
-              class="bg-[#f0f2f5] border border-gray-200 rounded-lg p-4 mb-4 max-h-48 overflow-y-auto"
-            >
-              <div class="space-y-2 text-xs font-mono text-[#595959]">
-                <div>[2024-04-17 14:32:15] 开始扫描目标 192.168.1.100</div>
-                <div>
-                  [2024-04-17 14:32:18] 端口扫描完成，发现开放端口：80, 443,
-                  8080
-                </div>
-                <div class="text-[#ff4d4f]">
-                  [2024-04-17 14:32:25] SQL注入测试 - 发现漏洞 (高危)
-                </div>
-                <div class="text-[#faad14]">
-                  [2024-04-17 14:32:31] XSS漏洞检测 - 发现2处漏洞 (中危)
-                </div>
-                <div>[2024-04-17 14:32:45] 目录遍历测试 - 未发现漏洞</div>
-                <div class="text-[#faad14]">
-                  [2024-04-17 14:32:52] CSRF保护检测 - 发现漏洞 (中危)
-                </div>
-                <div class="text-[#ff4d4f]">
-                  [2024-04-17 14:33:01] 文件上传漏洞测试 - 发现漏洞 (高危)
-                </div>
-                <div class="text-[#1677ff] font-semibold animate-pulse">
-                  [2024-04-17 14:33:15] 正在进行鉴权绕过测试...
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Recent Reports Overview -->
-          <div class="card bg-white rounded-lg shadow-sm p-6">
-            <div class="flex items-center justify-between mb-4">
-              <h3
-                class="text-base font-semibold text-[#262626] flex items-center"
-              >
-                <iconify-icon
-                  icon="lucide:bar-chart-3"
-                  class="text-lg mr-2 text-[#1677ff]"
-                ></iconify-icon>
-                近期报告概览
-              </h3>
-            </div>
-
-            <div class="grid grid-cols-3 gap-4 mb-4">
-              <div
-                class="text-center p-2 rounded-lg bg-[#fff1f0] border border-[#ffccc7]"
-              >
-                <div class="text-2xl font-semibold text-[#ff4d4f]">15</div>
-                <div class="text-xs text-[#8c8c8c] mt-1">高危漏洞</div>
-              </div>
-              <div
-                class="text-center p-2 rounded-lg bg-[#fffbe6] border border-[#ffe58f]"
-              >
-                <div class="text-2xl font-semibold text-[#faad14]">28</div>
-                <div class="text-xs text-[#8c8c8c] mt-1">中危漏洞</div>
-              </div>
-              <div
-                class="text-center p-2 rounded-lg bg-[#f6ffed] border border-[#b7eb8f]"
-              >
-                <div class="text-2xl font-semibold text-[#52c41a]">42</div>
-                <div class="text-xs text-[#8c8c8c] mt-1">低危漏洞</div>
-              </div>
-            </div>
-
-            <div class="border-t border-gray-200 pt-4">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-sm font-medium text-[#8c8c8c]"
-                  >整体安全评分</span
-                >
-                <span
-                  class="text-sm font-bold text-[#faad14] bg-[#fffbe6] px-2 py-0.5 rounded border border-[#ffe58f]"
-                  >C级 (65分)</span
-                >
-              </div>
-              <div
-                class="w-full bg-gray-200 rounded-full h-2 mt-2 overflow-hidden shadow-inner"
-              >
-                <div
-                  class="bg-gradient-to-r from-[#ff4d4f] via-[#faad14] to-[#52c41a] h-2 rounded-full"
-                  style="width: 65%"
-                ></div>
-              </div>
-              <div
-                class="text-xs text-[#8c8c8c] mt-2 flex items-center justify-between"
-              >
-                <span>基于最近 30 天的扫描数据计算。</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </main>
-  </body>
+</body>
 </html>

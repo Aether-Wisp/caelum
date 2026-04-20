@@ -1,158 +1,86 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>历史日志</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../src/caelum/static/css/caelum.css" />
-  </head>
-  <body>
-    <main class="flex-1 overflow-y-auto p-6">
-      <div class="card bg-white rounded-lg shadow-sm">
-        <!-- Header with Filters -->
-        <div class="p-6 border-b border-gray-200">
-          <div class="flex justify-between items-center">
-            <h2 class="text-xl font-semibold text-[#262626]">历史日志</h2>
-            <div class="flex items-center space-x-2">
-              <input
-                type="text"
-                placeholder="搜索IP或关键词..."
-                class="input-field w-48 px-3 py-2 border border-gray-300 rounded-lg text-sm"
-              />
-              <select
-                class="input-field px-3 py-2 border border-gray-300 rounded-lg text-sm"
-              >
-                <option>所有等级</option>
-                <option>严重</option>
-                <option>高危</option>
-                <option>中危</option>
-                <option>低危</option>
-              </select>
-              <input
-                type="date"
-                class="input-field px-3 py-2 border border-gray-300 rounded-lg text-sm"
-              />
-              <button
-                class="btn-primary px-4 py-2 bg-[#1677ff] text-white rounded-lg text-sm font-medium"
-              >
-                筛选
-              </button>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <main class="flex-1 w-full max-w-[1600px] mx-auto p-4 md:p-8 fade-in">
+        <div class="neu-card p-10 flex flex-col h-[calc(100vh-140px)] min-h-[600px]">
+            
+            <!-- Header & Filter Actions -->
+            <div class="flex justify-between items-center mb-8 border-b border-[#E5E6EB]/50 pb-6">
+                <h2 class="text-[22px] font-medium text-[#1D2129] flex items-center tracking-tight">
+                    <iconify-icon icon="lucide:clipboard-list" class="text-[26px] mr-3 text-[#1677FF]"></iconify-icon>
+                    测试执行日志
+                </h2>
+                
+                <div class="flex space-x-4">
+                    <div class="relative w-[320px]">
+                        <iconify-icon icon="lucide:search" class="absolute left-4 top-1/2 -translate-y-1/2 text-[#86909C] text-[18px]"></iconify-icon>
+                        <input type="text" placeholder="搜索目标 IP 或事件..." class="neu-input w-full pl-12 h-[42px] text-[14px] placeholder-[#86909C]">
+                    </div>
+                    <button class="neu-btn-secondary h-[42px] px-6 text-[14px] flex items-center justify-center space-x-2 text-[#4E5969]">
+                        <iconify-icon icon="lucide:filter" class="text-[16px]"></iconify-icon>
+                        <span>高级筛选</span>
+                    </button>
+                    <button class="neu-btn-primary h-[42px] px-6 text-[14px] flex items-center justify-center space-x-2 shadow-[4px_4px_8px_rgba(200,206,215,0.4),-4px_-4px_8px_rgba(255,255,255,0.8)]">
+                        <iconify-icon icon="lucide:arrow-down-to-line" class="text-[16px]"></iconify-icon>
+                        <span>导出全部</span>
+                    </button>
+                </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Log Table -->
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm text-left text-[#595959]">
-            <thead class="text-xs text-[#8c8c8c] uppercase bg-[#f0f2f5]">
-              <tr>
-                <th scope="col" class="px-6 py-3">测试目标 IP</th>
-                <th scope="col" class="px-6 py-3">测试时间</th>
-                <th scope="col" class="px-6 py-3">危险等级</th>
-                <th scope="col" class="px-6 py-3">漏洞数量</th>
-                <th scope="col" class="px-6 py-3 text-center">操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="log-row bg-white border-b">
-                <td class="px-6 py-4 font-medium text-[#262626]">
-                  101.34.21.118
-                </td>
-                <td class="px-6 py-4">2024-04-16 10:30:15</td>
-                <td class="px-6 py-4">
-                  <span class="status-badge severe">严重</span>
-                </td>
-                <td class="px-6 py-4">5</td>
-                <td class="px-6 py-4 text-center space-x-2">
-                  <button class="font-medium text-[#1677ff] hover:underline">
-                    详情
-                  </button>
-                  <button class="font-medium text-[#1677ff] hover:underline">
-                    下载报告
-                  </button>
-                </td>
-              </tr>
-              <tr class="log-row bg-white border-b">
-                <td class="px-6 py-4 font-medium text-[#262626]">
-                  218.94.15.201
-                </td>
-                <td class="px-6 py-4">2024-04-15 18:12:45</td>
-                <td class="px-6 py-4">
-                  <span class="status-badge high">高危</span>
-                </td>
-                <td class="px-6 py-4">2</td>
-                <td class="px-6 py-4 text-center space-x-2">
-                  <button class="font-medium text-[#1677ff] hover:underline">
-                    详情
-                  </button>
-                  <button class="font-medium text-[#1677ff] hover:underline">
-                    下载报告
-                  </button>
-                </td>
-              </tr>
-              <tr class="log-row bg-white border-b">
-                <td class="px-6 py-4 font-medium text-[#262626]">
-                  example.com
-                </td>
-                <td class="px-6 py-4">2024-04-15 09:05:22</td>
-                <td class="px-6 py-4">
-                  <span class="status-badge medium">中危</span>
-                </td>
-                <td class="px-6 py-4">8</td>
-                <td class="px-6 py-4 text-center space-x-2">
-                  <button class="font-medium text-[#1677ff] hover:underline">
-                    详情
-                  </button>
-                  <button class="font-medium text-[#1677ff] hover:underline">
-                    下载报告
-                  </button>
-                </td>
-              </tr>
-              <tr class="log-row bg-white border-b">
-                <td class="px-6 py-4 font-medium text-[#262626]">
-                  192.168.1.100
-                </td>
-                <td class="px-6 py-4">2024-04-14 22:45:00</td>
-                <td class="px-6 py-4">
-                  <span class="status-badge low">低危</span>
-                </td>
-                <td class="px-6 py-4">12</td>
-                <td class="px-6 py-4 text-center space-x-2">
-                  <button class="font-medium text-[#1677ff] hover:underline">
-                    详情
-                  </button>
-                  <button class="font-medium text-[#1677ff] hover:underline">
-                    下载报告
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+            <!-- Table Container -->
+            <div class="flex-1 w-full overflow-hidden flex flex-col pt-2 pb-6">
+                <!-- Neumorphic wrapping container for table to give it inner depth -->
+                <div class="flex-1 bg-[#F7F9FC] rounded-[20px] shadow-[inset_6px_6px_12px_rgba(200,206,215,0.4),inset_-6px_-6px_12px_rgba(255,255,255,0.9)] overflow-hidden flex flex-col border border-white">
+                    <div class="flex-1 overflow-x-auto overflow-y-auto w-full custom-scrollbar">
+                        <table class="w-full text-left text-[14px] whitespace-nowrap min-w-[800px]">
+                            <thead class="bg-[#F7F9FC] text-[#86909C] text-[13px] font-medium sticky top-0 z-10 before:content-[''] before:absolute before:left-0 before:right-0 before:bottom-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-[#E5E6EB] before:to-transparent">
+                                <tr>
+                                    <th class="px-8 py-5 tracking-wide w-[20%]">目标特征 IP</th>
+                                    <th class="px-8 py-5 tracking-wide w-[25%]">最近活动时间</th>
+                                    <th class="px-8 py-5 tracking-wide w-[15%]">威胁评级</th>
+                                    <th class="px-8 py-5 tracking-wide w-[15%]">触发总计</th>
+                                    <th class="px-8 py-5 tracking-wide text-center w-[25%]">操作集</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#E5E6EB]/30 divide-dashed text-[#4E5969]">
+                                <!-- Row template used by js -->
+                                <tr class="neu-table-row bg-[#F7F9FC] hover:bg-[#F0F4F8] transition-colors group cursor-pointer">
+                                    <td class="px-8 py-5 font-medium text-[#1D2129] group-hover:text-[#1677FF] transition-colors"><iconify-icon icon="lucide:server" class="mr-2 text-[#86909C] group-hover:text-[#1677FF] transition-colors"></iconify-icon> 正在加载...</td>
+                                    <td class="px-8 py-5">--</td>
+                                    <td class="px-8 py-5"><span class="neu-badge low">--</span></td>
+                                    <td class="px-8 py-5 font-mono">--</td>
+                                    <td class="px-8 py-5 text-center">--</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-        <!-- Pagination -->
-        <div class="p-4 flex justify-between items-center">
-          <span class="text-sm text-[#8c8c8c]">显示 1-4 of 50 条记录</span>
-          <div class="flex items-center space-x-2">
-            <button class="px-3 py-1 border rounded-lg hover:bg-gray-100">
-              &laquo;
-            </button>
-            <button class="px-3 py-1 border rounded-lg bg-[#1677ff] text-white">
-              1
-            </button>
-            <button class="px-3 py-1 border rounded-lg hover:bg-gray-100">
-              2
-            </button>
-            <button class="px-3 py-1 border rounded-lg hover:bg-gray-100">
-              3
-            </button>
-            <button class="px-3 py-1 border rounded-lg hover:bg-gray-100">
-              &raquo;
-            </button>
-          </div>
+            <!-- Footer Pagination -->
+            <div class="flex items-center justify-between pt-6 border-t border-[#E5E6EB]/50 flex-shrink-0">
+                <span class="text-[14px] text-[#86909C] font-medium tracking-wide">
+                    共 <span class="text-[#1D2129] font-bold mx-1" id="total-logs-count">3</span> 项条目录入
+                </span>
+                
+                <div class="flex items-center space-x-3">
+                    <button class="w-[42px] h-[42px] rounded-xl bg-[#F7F9FC] shadow-[3px_3px_6px_rgba(200,206,215,0.4),-3px_-3px_6px_rgba(255,255,255,0.9)] hover:shadow-[inset_2px_2px_5px_rgba(200,206,215,0.3),inset_-2px_-2px_5px_rgba(255,255,255,0.8)] flex items-center justify-center text-[#86909C] hover:text-[#1677FF] transition-all disabled:opacity-50 disabled:pointer-events-none disabled:shadow-none" disabled>
+                        <iconify-icon icon="lucide:chevron-left" class="text-[20px]"></iconify-icon>
+                    </button>
+                    <!-- Pagination pill -->
+                    <div class="px-5 h-[42px] rounded-xl bg-[#E8F3FF] text-[#1677FF] font-medium flex items-center justify-center text-[14px] shadow-[inset_2px_2px_5px_rgba(200,206,215,0.2)] border border-[#1677FF]/20">
+                        1 / 5
+                    </div>
+                    <button class="w-[42px] h-[42px] rounded-xl bg-[#F7F9FC] shadow-[3px_3px_6px_rgba(200,206,215,0.4),-3px_-3px_6px_rgba(255,255,255,0.9)] hover:shadow-[inset_2px_2px_5px_rgba(200,206,215,0.3),inset_-2px_-2px_5px_rgba(255,255,255,0.8)] flex items-center justify-center text-[#86909C] hover:text-[#1677FF] transition-all">
+                        <iconify-icon icon="lucide:chevron-right" class="text-[20px]"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+            
         </div>
-      </div>
     </main>
-  </body>
+</body>
 </html>
