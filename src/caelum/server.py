@@ -12,7 +12,7 @@ import uuid
 import threading
 import concurrent.futures
 from typing import Dict, Any
-from flask import Flask, request, jsonify
+from flask import Flask, send_from_directory, request, jsonify
 from flask_cors import CORS
 from tools_framework import UnifiedToolFramework, ToolConfig, ToolCategory
 from payload_generator import UnifiedPayloadGenerator
@@ -479,10 +479,23 @@ def get_test_report(session_id: str):
 # 前端界面
 # ============================================================================
 
+import os
+
+# Serve the main HTML file from the /HTML directory
 @app.route('/', methods=['GET'])
 def index():
     """提供前端界面"""
-    return app.send_static_file('index.html')
+    return send_from_directory('../../HTML', '01-caelum.html')
+
+# Serve other HTML slice files (e.g. /HTML/01-test-tasks-content.html)
+@app.route('/HTML/<path:filename>', methods=['GET'])
+def serve_html(filename):
+    return send_from_directory('../../HTML', filename)
+
+# Keep the static path if needed, or point /src to be sure
+@app.route('/src/caelum/static/<path:filename>', methods=['GET'])
+def serve_caelum_static(filename):
+    return send_from_directory('static', filename)
 
 # ============================================================================
 # 向后兼容性 - 旧API端点包装
