@@ -1,4 +1,7 @@
-document.addEventListener("DOMContentLoaded", () => {
+import os
+import re
+
+js_content = """document.addEventListener("DOMContentLoaded", () => {
   const navItems = document.querySelectorAll(".nav-item");
   const mainContent = document.querySelector("main");
   const pageTitle = document.querySelector("#page-title");
@@ -284,7 +287,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td class="px-6 py-4"><span class="neu-badge ${mapClass}">${mapText}</span></td>
                 <td class="px-6 py-4">${log.status}</td>
                 <td class="px-6 py-4 text-center space-x-3">
-                    <button class="text-[#1677FF] font-medium hover:text-[#1466E6] transition-colors" onclick="alert('Session ID:\n${log.session_id}')">详情</button>
+                    <button class="text-[#1677FF] font-medium hover:text-[#1466E6] transition-colors" onclick="alert('Session ID:\\n${log.session_id}')">详情</button>
                     <!-- <button class="text-[#1677FF] font-medium hover:text-[#1466E6] transition-colors">下载PDF</button> -->
                 </td>
             </tr>`;
@@ -297,3 +300,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const activeNavItem = document.querySelector(`.nav-item[href="#${initialPage}"]`);
   if (activeNavItem) activeNavItem.click();
 });
+"""
+
+with open(r'd:\1-compitition\waibao\caelum\src\caelum\static\js\caelum.js', 'w', encoding='utf-8') as f:
+    f.write(js_content)
+print("Updated caelum.js successfully!")
