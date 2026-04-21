@@ -11,7 +11,7 @@ services:
       # AI 模型 API 密钥
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
-      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-}
+      - DEEPSEEK_API_KEY=sk-ab474a0de0b84ff1bffd8aff98ed35c3
       # Python 环境
       - PYTHONUNBUFFERED=1
     volumes:

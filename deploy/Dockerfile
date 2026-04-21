@@ -4,8 +4,12 @@
 FROM kalilinux/kali-rolling
 
 LABEL maintainer="Caelum Team"
-LABEL description="Caelum v8.0 - AI-Driven Security Automation Platform"
+LABEL description="Caelum - AI-Driven Security Automation Platform"
 LABEL version="8.0"
+
+# 替换 Kali 源为国内阿里云源加速下载
+RUN echo "deb http://mirrors.aliyun.com/kali kali-rolling main non-free contrib" > /etc/apt/sources.list && \
+    echo "deb-src http://mirrors.aliyun.com/kali kali-rolling main non-free contrib" >> /etc/apt/sources.list
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED=1
@@ -74,9 +78,9 @@ RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 # 在虚拟环境里安装依赖
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt && \
-    pip install pwntools angr shodan censys
+RUN pip install -i https://mirrors.aliyun.com/pypi/simple/ --upgrade pip && \
+    pip install -i https://mirrors.aliyun.com/pypi/simple/ -r requirements.txt && \
+    pip install -i https://mirrors.aliyun.com/pypi/simple/ pwntools angr shodan censys
 
 # 创建虚拟环境（可选）
 RUN python3 -m venv /opt/caelum_env
